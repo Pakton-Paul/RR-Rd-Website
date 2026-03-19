@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Departure Checklist | 83 Rifle Range Rd</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .page-header {
+      padding: 40px 0 24px;
+      border-bottom: 1px solid rgba(207,198,184,0.6);
+      margin-bottom: 32px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--sienna);
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+    .back-link:hover { color: var(--terracotta); }
+
+    .checklist-section {
+      background: rgba(244,239,230,0.7);
+      border: 1px solid rgba(207,198,184,0.85);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+    .checklist-section h2 {
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--sienna);
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(207,198,184,0.6);
+      margin-bottom: 14px;
+    }
+    .checklist-section h2 i { color: var(--terracotta); font-size: 18px; }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 2px;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 10px 8px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.1s;
+      line-height: 1.5;
+    }
+    .checklist li:hover { background: rgba(207,198,184,0.25); }
+    .checklist li.done { opacity: 0.55; }
+    .checklist li.done .check-text { text-decoration: line-through; }
+
+    .check-box {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--stone);
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .check-box i {
+      color: white;
+      font-size: 12px;
+      display: none;
+    }
+    .checklist li.done .check-box {
+      background: var(--olive);
+      border-color: var(--olive);
+    }
+    .checklist li.done .check-box i { display: block; }
+
+    .progress-bar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(244,239,230,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(207,198,184,0.5);
+      padding: 10px 0;
+    }
+    .progress-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .progress-track {
+      flex: 1;
+      height: 8px;
+      background: rgba(207,198,184,0.55);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--olive);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+    .progress-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      font-variant: small-caps;
+      letter-spacing: 0.06em;
+    }
+
+    .reset-btn {
+      background: none;
+      border: 1px solid rgba(207,198,184,0.85);
+      border-radius: 10px;
+      padding: 5px 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font-body);
+    }
+    .reset-btn:hover { border-color: var(--stone); color: var(--text-main); }
+
+    .note-box {
+      background: rgba(111,125,60,0.08);
+      border-left: 4px solid var(--olive);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 10px 14px;
+      margin: 10px 0;
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-text">
+          <p class="brand-kicker">Guest Guide</p>
+          <p class="brand-name">83 Rifle Range Rd</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="progress-bar-wrap">
+    <div class="container progress-inner">
+      <span class="progress-label">Progress</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="progress-label" id="progress-text">0 / 0</span>
+      <button class="reset-btn" id="reset-btn">Reset</button>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Guest Guide</a>
+        <p class="kicker">Before you leave</p>
+        <h1>Departure Checklist</h1>
+        <p class="lead" style="margin-top: 8px;">
+          Please complete each step before leaving. Tick items as you go. Standard checkout is <strong>12:00 pm (noon)</strong>.
+        </p>
+        <div class="note-box">
+          Please send us a message when you leave so we can arm the alarm system remotely. Thank you!
+        </div>
+      </div>
+
+      <!-- Bedrooms -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-bed"></i> Bedrooms</h2>
+        <ul class="checklist">
+          <li data-id="1">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Strip used sheets and place them in the laundry.</span>
+          </li>
+          <li data-id="2">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Make up the beds with the clean spare sheets provided (one complete set is in a pillowcase in each room).</span>
+          </li>
+          <li data-id="3">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Check drawers, wardrobes, and under the beds for personal belongings.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bathrooms -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-bath"></i> Bathrooms</h2>
+        <ul class="checklist">
+          <li data-id="4">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Place used towels and face washers in the laundry.</span>
+          </li>
+          <li data-id="5">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Clean the bathrooms and leave them guest-ready (wipe sinks, clean toilet, wipe shower/bath).</span>
+          </li>
+          <li data-id="6">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Check bathroom cupboards and shower for personal items.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Kitchen & Dining -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-utensils"></i> Kitchen &amp; Dining</h2>
+        <ul class="checklist">
+          <li data-id="7">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Wash and put away all dishes, pots, pans, and utensils. Run the dishwasher if needed.</span>
+          </li>
+          <li data-id="8">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Wipe down kitchen benches, stove top, and dining table.</span>
+          </li>
+          <li data-id="9">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Empty the fridge and freezer of any personal food. Leave pantry items you have not used.</span>
+          </li>
+          <li data-id="10">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Empty and clean the internal kitchen bin. Empty the recycling basket under the sink into the yellow bin. Empty the compost container.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Floors & Surfaces -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-broom"></i> Floors &amp; Surfaces</h2>
+        <ul class="checklist">
+          <li data-id="11">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Vacuum carpets and hard floors in all rooms used. Stick vacuum is under the stairs (wave hand inside door to activate sensor light).</span>
+          </li>
+          <li data-id="12">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Mop tiled floors.</span>
+          </li>
+          <li data-id="13">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Wipe and dust used surfaces.</span>
+          </li>
+          <li data-id="14">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Sweep outdoor areas (or use the leaf blower in the garage).</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Outdoors & Pool -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-water"></i> Outdoors &amp; Pool</h2>
+        <ul class="checklist">
+          <li data-id="15">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Check pool water level and add a chlorine tablet if needed.</span>
+          </li>
+          <li data-id="16">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Close and latch both pool fence gates.</span>
+          </li>
+          <li data-id="17">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Return outdoor furniture covers to any chairs where they were provided.</span>
+          </li>
+          <li data-id="18">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Return BBQ to its storage position. Turn off the gas bottle regulator.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bicycles & Car -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-bicycle"></i> Bicycles &amp; Car</h2>
+        <ul class="checklist">
+          <li data-id="19">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Lock and chain the electric bicycles in the garage. Pass the cable through each frame and lock it. Use U-locks if parked outside.</span>
+          </li>
+          <li data-id="20">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Return bike keys and car keys to the 3rd kitchen drawer.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Final Check -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-magnifying-glass"></i> Final Check</h2>
+        <ul class="checklist">
+          <li data-id="21">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Check all rooms, cupboards, and drawers for personal belongings.</span>
+          </li>
+          <li data-id="22">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Check phone chargers, toiletries, medications, and valuables.</span>
+          </li>
+          <li data-id="23">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Turn off all air conditioning units, lights, and fans.</span>
+          </li>
+          <li data-id="24">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Close all windows.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Locking Up -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-lock"></i> Locking Up</h2>
+        <ul class="checklist">
+          <li data-id="25">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Lock the laundry external door (deadlock).</span>
+          </li>
+          <li data-id="26">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Lock the glass sliding doors and screen doors.</span>
+          </li>
+          <li data-id="27">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Lock the internal door to the garage.</span>
+          </li>
+          <li data-id="28">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Lock the front door (deadlock).</span>
+          </li>
+          <li data-id="29">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Place the front door key back in the outdoor key lock box (code: WALTER). The code is needed to close the box.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Notify hosts -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-message"></i> Notify Us</h2>
+        <ul class="checklist">
+          <li data-id="30">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Send a message to Kayleen (+61 429 055 655) or Paul (+61 409 055 655) to let us know you have left. This allows us to arm the alarm system.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div style="text-align: center; padding: 24px 0 40px;">
+        <p style="color: var(--text-muted); margin-bottom: 16px;">Thank you for staying with us. We hope you had a wonderful time!</p>
+        <a class="btn btn-primary" href="index.html"><i class="fas fa-house"></i>&nbsp; Back to Guest Guide</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <p class="brand-name">83 Rifle Range Rd</p>
+        <p class="muted">Narangba, Queensland</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    var items = document.querySelectorAll('.checklist li');
+    var total = items.length;
+    var STORAGE_KEY = 'rrr_exit_v1';
+
+    function getState() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+    }
+    function saveState(state) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+    }
+
+    function updateProgress() {
+      var done = document.querySelectorAll('.checklist li.done').length;
+      var pct = total > 0 ? Math.round((done / total) * 100) : 0;
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('progress-text').textContent = done + ' / ' + total;
+    }
+
+    function loadState() {
+      var state = getState();
+      items.forEach(function(li) {
+        var id = li.dataset.id;
+        if (id && state[id]) li.classList.add('done');
+      });
+      updateProgress();
+    }
+
+    items.forEach(function(li) {
+      li.addEventListener('click', function() {
+        li.classList.toggle('done');
+        var state = getState();
+        state[li.dataset.id] = li.classList.contains('done');
+        saveState(state);
+        updateProgress();
+      });
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', function() {
+      items.forEach(function(li) { li.classList.remove('done'); });
+      saveState({});
+      updateProgress();
+    });
+
+    loadState();
+  </script>
+</body>
+</html>

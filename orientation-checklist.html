@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arrival Orientation | 83 Rifle Range Rd</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .page-header {
+      padding: 40px 0 24px;
+      border-bottom: 1px solid rgba(207,198,184,0.6);
+      margin-bottom: 32px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--sienna);
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+    .back-link:hover { color: var(--terracotta); }
+
+    .checklist-section {
+      background: rgba(244,239,230,0.7);
+      border: 1px solid rgba(207,198,184,0.85);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+    .checklist-section h2 {
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--sienna);
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(207,198,184,0.6);
+      margin-bottom: 14px;
+    }
+    .checklist-section h2 i { color: var(--terracotta); font-size: 18px; }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 2px;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 10px 8px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.1s;
+      line-height: 1.5;
+    }
+    .checklist li:hover { background: rgba(207,198,184,0.25); }
+    .checklist li.done { opacity: 0.55; }
+    .checklist li.done .check-text { text-decoration: line-through; }
+
+    .check-box {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--stone);
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .check-box i {
+      color: white;
+      font-size: 12px;
+      display: none;
+    }
+    .checklist li.done .check-box {
+      background: var(--olive);
+      border-color: var(--olive);
+    }
+    .checklist li.done .check-box i { display: block; }
+
+    .highlight-box {
+      background: rgba(198,93,58,0.08);
+      border-left: 4px solid var(--terracotta);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 10px 14px;
+      margin: 6px 0 10px 36px;
+      font-size: 15px;
+    }
+    .highlight-box strong { color: var(--sienna); }
+
+    .progress-bar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(244,239,230,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(207,198,184,0.5);
+      padding: 10px 0;
+    }
+    .progress-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .progress-track {
+      flex: 1;
+      height: 8px;
+      background: rgba(207,198,184,0.55);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--olive);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+    .progress-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      font-variant: small-caps;
+      letter-spacing: 0.06em;
+    }
+
+    .reset-btn {
+      background: none;
+      border: 1px solid rgba(207,198,184,0.85);
+      border-radius: 10px;
+      padding: 5px 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font-body);
+    }
+    .reset-btn:hover { border-color: var(--stone); color: var(--text-main); }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-text">
+          <p class="brand-kicker">Guest Guide</p>
+          <p class="brand-name">83 Rifle Range Rd</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="progress-bar-wrap">
+    <div class="container progress-inner">
+      <span class="progress-label">Progress</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="progress-label" id="progress-text">0 / 0</span>
+      <button class="reset-btn" id="reset-btn">Reset</button>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Guest Guide</a>
+        <p class="kicker">On arrival</p>
+        <h1>Orientation Checklist</h1>
+        <p class="lead" style="margin-top: 8px;">
+          A quick walkthrough for your first hour. Tick each item as you go. Your progress is saved in this browser.
+        </p>
+      </div>
+
+      <!-- Keys & Access -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-key"></i> Keys &amp; Access</h2>
+        <ul class="checklist" id="checklist">
+          <li data-id="1">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Two sets of keys have been left for you — one on the kitchen bench, one in the laundry.</span>
+          </li>
+          <li data-id="2">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Key box is on the brick pillar near the front door. Ask us for the code. Instructions are inside the lid. Use this if you ever lock yourself out.</span>
+          </li>
+          <li data-id="3">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">The laundry door is deadlocked for security — that is why keys are left on the bench.</span>
+          </li>
+          <li data-id="4">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Our rule: if a door is closed, treat it as locked or latched.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Wi-Fi -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-wifi"></i> Wi-Fi</h2>
+        <ul class="checklist">
+          <li data-id="5">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Connect to the guest network. Details on the card in the guest bedroom — or see below:</span>
+          </li>
+        </ul>
+        <div class="highlight-box">
+          <strong>Network:</strong> Thin_Lizzey3<br>
+          <strong>Password:</strong> dublin1969
+        </div>
+      </div>
+
+      <!-- Security -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-shield-halved"></i> Security System</h2>
+        <ul class="checklist">
+          <li data-id="6">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">The JVA remote fob on the key ring operates the alarm. 1 chirp = armed, 2 chirps = disarmed. Please arm whenever you leave the house.</span>
+          </li>
+          <li data-id="7">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Indoor dome cameras (two) are only powered on when the alarm is armed. They are never on while you are home.</span>
+          </li>
+          <li data-id="8">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Two front cameras point at the street and are always on, recording on motion. One back veranda camera is off.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Safety -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-fire-extinguisher"></i> Safety</h2>
+        <ul class="checklist">
+          <li data-id="9">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Fire extinguisher — on the laundry shelf near the kitchen door.</span>
+          </li>
+          <li data-id="10">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">First aid kit — in the kitchen pantry (marked).</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Known Issues -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-triangle-exclamation"></i> Known Issues</h2>
+        <ul class="checklist">
+          <li data-id="11">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">The shower door in the main bedroom ensuite is not fully secure — please be gentle with it. We apologise for this inconvenience.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Checkout -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-calendar-check"></i> Checkout</h2>
+        <ul class="checklist">
+          <li data-id="12">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Confirm your checkout date and time with Paul or Kayleen. People have got this wrong in the past.</span>
+          </li>
+          <li data-id="13">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Standard checkout is <strong>12:00 pm (noon)</strong> unless we have agreed otherwise.</span>
+          </li>
+          <li data-id="14">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">You are expected to clean before you leave. See the <a href="exit-checklist.html" style="color:var(--sienna);">Exit Checklist</a> for details.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Final -->
+      <div class="checklist-section">
+        <h2><i class="fas fa-circle-info"></i> Good to Know</h2>
+        <ul class="checklist">
+          <li data-id="15">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Contact details, Wi-Fi, and all house information are in the Guest Guide and the printed manual in the guest bedroom.</span>
+          </li>
+          <li data-id="16">
+            <span class="check-box"><i class="fas fa-check"></i></span>
+            <span class="check-text">Please message us to let us know you have arrived safely.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div style="text-align: center; padding: 24px 0 40px;">
+        <p style="color: var(--text-muted); margin-bottom: 16px;">All done? Enjoy your stay!</p>
+        <a class="btn btn-primary" href="index.html"><i class="fas fa-house"></i>&nbsp; Back to Guest Guide</a>
+        &nbsp;
+        <a class="btn btn-ghost" href="exit-checklist.html">View Exit Checklist</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <p class="brand-name">83 Rifle Range Rd</p>
+        <p class="muted">Narangba, Queensland</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Gather all checklist items across all sections
+    var items = document.querySelectorAll('.checklist li');
+    var total = items.length;
+    var STORAGE_KEY = 'rrr_orientation_v1';
+
+    function getState() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+    }
+    function saveState(state) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+    }
+
+    function updateProgress() {
+      var done = document.querySelectorAll('.checklist li.done').length;
+      var pct = total > 0 ? Math.round((done / total) * 100) : 0;
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('progress-text').textContent = done + ' / ' + total;
+    }
+
+    function loadState() {
+      var state = getState();
+      items.forEach(function(li) {
+        var id = li.dataset.id;
+        if (id && state[id]) li.classList.add('done');
+      });
+      updateProgress();
+    }
+
+    items.forEach(function(li) {
+      li.addEventListener('click', function() {
+        li.classList.toggle('done');
+        var state = getState();
+        state[li.dataset.id] = li.classList.contains('done');
+        saveState(state);
+        updateProgress();
+      });
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', function() {
+      items.forEach(function(li) { li.classList.remove('done'); });
+      saveState({});
+      updateProgress();
+    });
+
+    loadState();
+  </script>
+</body>
+</html>

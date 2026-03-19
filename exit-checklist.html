@@ -145,6 +145,31 @@
     }
     .reset-btn:hover { border-color: var(--stone); color: var(--text-main); }
 
+    .translate-bar {
+      background: rgba(111,125,60,0.09);
+      border-bottom: 1px solid rgba(111,125,60,0.22);
+      padding: 7px 0;
+      font-size: 14px;
+    }
+    .translate-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .translate-inner i { color: var(--olive); }
+    .translate-inner span { color: var(--text-muted); }
+    .translate-inner select {
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(207,198,184,0.85);
+      background: rgba(244,239,230,0.85);
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
     .note-box {
       background: rgba(111,125,60,0.08);
       border-left: 4px solid var(--olive);
@@ -169,6 +194,29 @@
       </div>
     </div>
   </header>
+
+  <!-- Translate bar -->
+  <div class="translate-bar">
+    <div class="container translate-inner">
+      <i class="fas fa-language"></i>
+      <span>Translate this page:</span>
+      <select id="translate-select" aria-label="Select language to translate">
+        <option value="">Select language…</option>
+        <option value="fr">Français (French)</option>
+        <option value="de">Deutsch (German)</option>
+        <option value="es">Español (Spanish)</option>
+        <option value="it">Italiano (Italian)</option>
+        <option value="nl">Nederlands (Dutch)</option>
+        <option value="pt">Português (Portuguese)</option>
+        <option value="ja">日本語 (Japanese)</option>
+        <option value="ko">한국어 (Korean)</option>
+        <option value="zh-CN">中文 (Chinese)</option>
+        <option value="id">Bahasa Indonesia</option>
+        <option value="th">ภาษาไทย (Thai)</option>
+        <option value="ar">العربية (Arabic)</option>
+      </select>
+    </div>
+  </div>
 
   <!-- Progress bar -->
   <div class="progress-bar-wrap">
@@ -441,6 +489,15 @@
     });
 
     loadState();
+
+    // Translate bar
+    document.getElementById('translate-select').addEventListener('change', function() {
+      var lang = this.value;
+      if (!lang) return;
+      var url = 'https://translate.google.com/translate?sl=en&tl=' + lang + '&u=' + encodeURIComponent(window.location.href);
+      window.open(url, '_blank');
+      this.value = '';
+    });
   </script>
 </body>
 </html>
